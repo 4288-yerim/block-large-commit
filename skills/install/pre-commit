@@ -4,6 +4,10 @@
 
 [ "$ALLOW_LARGE" = "1" ] && exit 0
 
+# 출력 파이프가 먼저 닫혀도(예: git commit 2>&1 | head) 훅이 죽지 않고 exit 1까지 가게 한다.
+# 훅이 도중에 죽으면 차단이 풀려 커밋이 통과한다
+trap '' PIPE
+
 max_mb=${MAX_MB:-5}
 max=$((max_mb * 1024 * 1024))
 
