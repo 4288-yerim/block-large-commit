@@ -1,0 +1,26 @@
+#!/bin/sh
+# 스테이징된 파일 중 MAX_MB(기본 5MB)를 넘는 것이 있으면 커밋을 막는다.
+# 이번 커밋만 허용하려면: ALLOW_LARGE=1 git commit ...
+
+[ "$ALLOW_LARGE" = "1" ] && exit 0
+
+max_mb=${MAX_MB:-5}
+max=$((max_mb * 1024 * 1024))
+
+# 삭제된 파일은 제외하고, 스테이징된 내용(인덱스)의 크기를 읽는다
+big=$(git -c core.quotepath=off diff --cached --name-only --diff-filter=ACMR | while IFS= read -r f; do
+    size=$(git cat-file -s ":$f" 2>/dev/null) || continue
+    [ "$size" -gt "$max" ] && printf '%s\t%s\n' "$size" "$f"
+done)
+
+[ -z "$big" ] && exit 0
+
+echo "커밋 차단: ${max_mb}MB를 넘는 파일이 스테이징되어 있습니다." >&2
+printf '%s\n' "$big" | while IFS="$(printf '\t')" read -r size f; do
+    mb=$(awk -v s="$size" 'BEGIN { printf "%.1f", s / 1048576 }')
+    echo "  ${mb} MB  $f" >&2
+done
+echo "" >&2
+echo "해결: git restore --staged <파일> 로 빼거나 .gitignore에 추가하세요." >&2
+echo "의도한 커밋이면: ALLOW_LARGE=1 git commit ..." >&2
+exit 1
