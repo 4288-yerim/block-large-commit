@@ -1,0 +1,6 @@
+{
+  "name": "block-large-commit",
+  "description": "스테이징된 파일이 5MB를 넘으면 커밋을 막는 git pre-commit 훅을 레포에 설치",
+  "version": "1.0.0",
+  "author": { "name": "4288-yerim" }
+}

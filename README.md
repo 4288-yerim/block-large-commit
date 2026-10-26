@@ -5,14 +5,33 @@
 
 ## 설치
 
+### Claude Code 플러그인으로 설치
+
+Claude Code에서 아래 순서로 입력합니다.
+
+```text
+/plugin marketplace add 4288-yerim/block-large-commit
+/plugin install block-large-commit@block-large-commit
+```
+
+설치 후 훅을 적용할 레포에서 Claude Code를 열고 실행합니다.
+
+```text
+/block-large-commit:install
+```
+
+현재 레포의 `.git/hooks/pre-commit`에 훅이 설치됩니다. 다른 pre-commit 훅이 이미 있으면 덮어쓰지 않고 알려 줍니다.
+
+### 직접 설치
+
 훅을 적용할 레포에서 실행합니다.
 
 ```bash
-cp pre-commit /path/to/repo/.git/hooks/pre-commit
+cp skills/install/pre-commit /path/to/repo/.git/hooks/pre-commit
 chmod +x /path/to/repo/.git/hooks/pre-commit
 ```
 
-`.git/hooks`는 레포에 올라가지 않으므로 다른 PC에서는 다시 설치해야 합니다.
+`.git/hooks`는 레포에 올라가지 않으므로 다른 PC나 다른 레포에서는 다시 설치해야 합니다.
 
 ## 동작
 

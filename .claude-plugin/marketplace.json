@@ -1,0 +1,12 @@
+{
+  "name": "block-large-commit",
+  "description": "대용량 파일 커밋을 막는 git pre-commit 훅",
+  "owner": { "name": "4288-yerim" },
+  "plugins": [
+    {
+      "name": "block-large-commit",
+      "source": "./",
+      "description": "스테이징된 파일이 5MB를 넘으면 커밋을 막는 git pre-commit 훅을 레포에 설치"
+    }
+  ]
+}
